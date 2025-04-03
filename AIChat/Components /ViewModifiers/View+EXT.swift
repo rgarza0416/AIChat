@@ -31,7 +31,7 @@ extension View {
     }
     
     func tappableBackground() -> some View {
-        background(Color.black.opacity(0.0001))
+        background(Color.black.opacity(0.001))
     }
     
     func removeListRowFormatting() -> some View {
@@ -42,14 +42,20 @@ extension View {
     
     func addingGradientBackgroundForText() -> some View {
         background(
-            LinearGradient(
-                colors: [
-                    Color.black.opacity(0),
-                    Color.black.opacity(0.3),
-                    Color.black.opacity(0.4)
-                ],
-                startPoint: .top,
-                endPoint: .bottom)
+            LinearGradient(colors: [
+                Color.black.opacity(0),
+                Color.black.opacity(0.3),
+                Color.black.opacity(0.4)
+            ], startPoint: .top, endPoint: .bottom)
         )
+    }
+    
+    @ViewBuilder
+    func ifSatisfiedCondition(_ condition: Bool, transform: (Self) -> some View) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
     }
 }
