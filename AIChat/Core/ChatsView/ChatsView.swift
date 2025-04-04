@@ -59,7 +59,6 @@ struct ChatsView: View {
         }
     }
     
-    
     private var chatsSection: some View {
         Section {
             if chats.isEmpty {

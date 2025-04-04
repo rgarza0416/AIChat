@@ -10,11 +10,13 @@ import SwiftUI
 struct SettingsView: View {
     
     @Environment(\.dismiss) private var dismiss
+    @Environment(AuthManager.self) private var authManager
     @Environment(AppState.self) private var appState
     
     @State private var isPremium: Bool = false
     @State private var isAnonymousUser: Bool = false
     @State private var showCreateAccountView: Bool = false
+    @State private var showAlert: AnyAppAlert?
 
     var body: some View {
         NavigationStack {
@@ -24,10 +26,16 @@ struct SettingsView: View {
                 applicationSection
             }
             .navigationTitle("Settings")
-            .sheet(isPresented: $showCreateAccountView) {
+            .sheet(isPresented: $showCreateAccountView, onDismiss: {
+                setAnonymousAccountStatus()
+            }, content: {
                 CreateAccountView()
                     .presentationDetents([.medium])
+            })
+            .onAppear {
+                setAnonymousAccountStatus()
             }
+            .showCustomAlert(alert: $showAlert)
         }
     }
     
@@ -53,7 +61,7 @@ struct SettingsView: View {
                 .foregroundStyle(.red)
                 .rowFormatting()
                 .anyButton(.highlight) {
-                    
+                    onDeleteAccountPressed()
                 }
                 .removeListRowFormatting()
         } header: {
@@ -111,17 +119,55 @@ struct SettingsView: View {
                 .removeListRowFormatting()
         } header: {
             Text("Application")
-        } 
+        } footer: {
+            Text("Created by Swiftful Thinking.\nLearn more at www.swiftful-thinking.com.")
+                .baselineOffset(6)
+        }
+    }
+    
+    func setAnonymousAccountStatus() {
+        isAnonymousUser = authManager.auth?.isAnonymous == true
     }
     
     func onSignOutPressed() {
-        // do some logic to sign user out of app!
-        
-        dismiss()
-        
         Task {
-            try? await Task.sleep(for: .seconds(1))
-            appState.updateViewState(showTabBarView: false)
+            do {
+                try authManager.signOut()
+                await dismissScreen()
+            } catch {
+                showAlert = AnyAppAlert(error: error)
+            }
+        }
+    }
+    
+    private func dismissScreen() async {
+        dismiss()
+        try? await Task.sleep(for: .seconds(1))
+        appState.updateViewState(showTabBarView: false)
+    }
+    
+    func onDeleteAccountPressed() {
+        showAlert = AnyAppAlert(
+            title: "Delete Account?",
+            subtitle: "This action is permanent and cannot be undone. Your data will be deleted from our server forever.",
+            buttons: {
+                AnyView(
+                    Button("Delete", role: .destructive, action: {
+                        onDeleteAccountConfirmed()
+                    })
+                )
+            }
+        )
+    }
+    
+    private func onDeleteAccountConfirmed() {
+        Task {
+            do {
+                try await authManager.deleteAccount()
+                await dismissScreen()
+            } catch {
+                showAlert = AnyAppAlert(error: error)
+            }
         }
     }
     
@@ -140,7 +186,18 @@ fileprivate extension View {
     }
 }
 
-#Preview {
+#Preview("No auth") {
     SettingsView()
+        .environment(AuthManager(service: MockAuthService(user: nil)))
+        .environment(AppState())
+}
+#Preview("Anonymous") {
+    SettingsView()
+        .environment(AuthManager(service: MockAuthService(user: UserAuthInfo.mock(isAnonymous: true))))
+        .environment(AppState())
+}
+#Preview("Not anonymous") {
+    SettingsView()
+        .environment(AuthManager(service: MockAuthService(user: UserAuthInfo.mock(isAnonymous: false))))
         .environment(AppState())
 }

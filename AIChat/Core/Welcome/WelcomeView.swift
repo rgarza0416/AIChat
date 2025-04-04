@@ -9,9 +9,11 @@ import SwiftUI
 
 struct WelcomeView: View {
     
+    @Environment(AppState.self) private var root
+
     @State var imageName: String = Constants.randomImage
     @State private var showSignInView: Bool = false
-    
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 8) {
@@ -28,16 +30,26 @@ struct WelcomeView: View {
             }
         }
         .sheet(isPresented: $showSignInView) {
-            CreateAccountView(title: "Sign In", subtitle: "Connect to an existing account.")
-                .presentationDetents([.medium])
+            CreateAccountView(
+                title: "Sign in",
+                subtitle: "Connect to an existing account.",
+                onDidSignIn: { isNewUser in
+                    handleDidSignIn(isNewUser: isNewUser)
+                }
+            )
+            .presentationDetents([.medium])
         }
     }
     
     private var titleSection: some View {
         VStack(spacing: 8) {
-            Text("AI Chat 💬")
+            Text("AI Chat 🤙")
                 .font(.largeTitle)
                 .fontWeight(.semibold)
+            
+            Text("YouTube @ SwiftfulThinking")
+                .font(.caption)
+                .foregroundStyle(.secondary)
         }
     }
     
@@ -50,18 +62,27 @@ struct WelcomeView: View {
                     .callToActionButton()
             }
             
-            Text("Already have an account? Sign in.")
+            Text("Already have an account? Sign in!")
                 .underline()
                 .font(.body)
                 .padding(8)
                 .tappableBackground()
                 .onTapGesture {
-                    onSignInPressed()
+                    onSignInPresssed()
                 }
         }
     }
     
-    private func onSignInPressed() {
+    private func handleDidSignIn(isNewUser: Bool) {
+        if isNewUser {
+            // Do nothing, user goes through onboarding
+        } else {
+            // Push into tabbar view
+            root.updateViewState(showTabBarView: true)
+        }
+    }
+    
+    private func onSignInPresssed() {
         showSignInView = true
     }
     
