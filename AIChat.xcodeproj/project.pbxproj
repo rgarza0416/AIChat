@@ -10,6 +10,8 @@
 		FA4C83472D9EF8A1000F2512 /* SwiftfulUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = FA4C83462D9EF8A1000F2512 /* SwiftfulUtilities */; };
 		FA4C83842DA03B3B000F2512 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = FA4C83832DA03B3B000F2512 /* FirebaseAuth */; };
 		FA8A29072DA0581500F883C5 /* SignInAppleAsync in Frameworks */ = {isa = PBXBuildFile; productRef = FA8A29062DA0581500F883C5 /* SignInAppleAsync */; };
+		FAF9D3A22DA593F100A5DC18 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FAF9D3A12DA593F100A5DC18 /* FirebaseFirestore */; };
+		FAF9D3A52DA5968800A5DC18 /* SwiftfulFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = FAF9D3A42DA5968800A5DC18 /* SwiftfulFirestore */; };
 		FAFA0A4E2D9C5BC8003868E5 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = FAFA0A4D2D9C5BC8003868E5 /* SDWebImageSwiftUI */; };
 /* End PBXBuildFile section */
 
@@ -61,7 +63,9 @@
 			files = (
 				FA8A29072DA0581500F883C5 /* SignInAppleAsync in Frameworks */,
 				FAFA0A4E2D9C5BC8003868E5 /* SDWebImageSwiftUI in Frameworks */,
+				FAF9D3A52DA5968800A5DC18 /* SwiftfulFirestore in Frameworks */,
 				FA4C83842DA03B3B000F2512 /* FirebaseAuth in Frameworks */,
+				FAF9D3A22DA593F100A5DC18 /* FirebaseFirestore in Frameworks */,
 				FA4C83472D9EF8A1000F2512 /* SwiftfulUtilities in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -89,6 +93,7 @@
 				FAA1029A2D96453800A85B3B /* AIChat */,
 				FAA102AB2D96453900A85B3B /* AIChatTests */,
 				FAA102B52D96453900A85B3B /* AIChatUITests */,
+				FAF9D3A02DA593F100A5DC18 /* Frameworks */,
 				FAA102992D96453800A85B3B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -101,6 +106,13 @@
 				FAA102B22D96453900A85B3B /* AIChatUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		FAF9D3A02DA593F100A5DC18 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -128,6 +140,8 @@
 				FA4C83462D9EF8A1000F2512 /* SwiftfulUtilities */,
 				FA4C83832DA03B3B000F2512 /* FirebaseAuth */,
 				FA8A29062DA0581500F883C5 /* SignInAppleAsync */,
+				FAF9D3A12DA593F100A5DC18 /* FirebaseFirestore */,
+				FAF9D3A42DA5968800A5DC18 /* SwiftfulFirestore */,
 			);
 			productName = AIChat;
 			productReference = FAA102982D96453800A85B3B /* AIChat.app */;
@@ -216,6 +230,7 @@
 				FA4C83452D9EF8A1000F2512 /* XCRemoteSwiftPackageReference "SwiftfulUtilities" */,
 				FA4C83822DA03B3B000F2512 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				FA8A29052DA0581500F883C5 /* XCRemoteSwiftPackageReference "SignInAppleAsync" */,
+				FAF9D3A32DA5968800A5DC18 /* XCRemoteSwiftPackageReference "SwiftfulFirestore" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FAA102992D96453800A85B3B /* Products */;
@@ -647,6 +662,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		FAF9D3A32DA5968800A5DC18 /* XCRemoteSwiftPackageReference "SwiftfulFirestore" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulFirestore.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.1;
+			};
+		};
 		FAFA0A4C2D9C5BC8003868E5 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
@@ -672,6 +695,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FA8A29052DA0581500F883C5 /* XCRemoteSwiftPackageReference "SignInAppleAsync" */;
 			productName = SignInAppleAsync;
+		};
+		FAF9D3A12DA593F100A5DC18 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FA4C83822DA03B3B000F2512 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		FAF9D3A42DA5968800A5DC18 /* SwiftfulFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FAF9D3A32DA5968800A5DC18 /* XCRemoteSwiftPackageReference "SwiftfulFirestore" */;
+			productName = SwiftfulFirestore;
 		};
 		FAFA0A4D2D9C5BC8003868E5 /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
